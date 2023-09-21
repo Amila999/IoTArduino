@@ -50,7 +50,7 @@ void loop() {
     ThingSpeakWrite(y);
   }
   count = count + 1;
-  delay(Ts);
+  delay(Ts*1000); //Wait 0.1 second for every loop
 }
 
 //Write Analog Control Signal
