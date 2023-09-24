@@ -8,12 +8,12 @@ WiFiClient  client;
 //Simulation
 float Ts = 0.1;
 int count = 0;
-float wait = 20000; // Wait 20 seconds to update the channel again
+float wait = 20; // Wait 20 seconds to update the channel again
 
 //Controller
 float u = 0;
 
-float y_init = 21.5;
+float y_init = 25.0;
 float y = y_init;
 
 const int AirHeaterPin = 9;
@@ -26,9 +26,9 @@ void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
   
-  pidAndLowPass.r = 30; //Setpoint
-  pidAndLowPass.Kp = 0.8;
-  pidAndLowPass.Ti = 20;
+  pidAndLowPass.r = 35; //Setpoint
+  pidAndLowPass.Kp = 0.35;
+  pidAndLowPass.Ti = 6;
   pidAndLowPass.Ts = Ts;
 
   pinMode(AirHeaterPin, OUTPUT);
@@ -45,7 +45,7 @@ void loop() {
   y = pidAndLowPass.LowPassFilter(y);
   u = pidAndLowPass.PiController(y);
   WriteAnalogControlSignal(u);
-  if (count == wait){
+  if (count == (wait/Ts)){
     count = 0;
     ThingSpeakWrite(y);
   }
